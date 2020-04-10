@@ -6,24 +6,24 @@
 
 	<section class="cta-section theme-bg-light py-5">
 		<div class="container text-center">
-			<h2 class="heading">DevBlog - A Blog Template Made For Developers</h2>
+			<h2 class="heading">DevBlog - A Blog Template Made For Developers </h2>
 			<div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
 
-			<form class="signup-form form-inline justify-content-center pt-3" action="subscribe/", method="post">
+			<form class="signup-form form-inline justify-content-center pt-3" id="formSubscribe">
 				{% csrf_token %}
 
 				<div class="form-group">
-					<label class="sr-only" for="semail">Your email</label>
-					{{ subscribe.as_table }}
-					<!--
-						<input type="email" id="semail" name="semail1" class="form-control mr-md-1 semail" placeholder="Enter email">
-					-->
+					<label class="sr-only" for="semail"></label> 
+					<!--{{ subscribe.as_p }} -->
 					
+				<input type="email" id="semail" name="semail" class="form-control mr-md-1 semail" placeholder="Enter email"/>
+				
 				</div>
-				<button type="submit" class="btn btn-primary">Subscribe</button>
+				<button type="button" class="btn btn-primary" id = "subscribe-btn">Subscribe</button>
 			</form>
-
+			<div class="errorClass1" id="errorClass1"></div>
 		</div><!--//container-->
+		
 	</section>
 	<section class="blog-list px-3 py-5 p-md-5">
 		<div class="container">
@@ -31,7 +31,7 @@
 			{% for post in posts %}
 			<div class="item mb-5">
 				<div class="media">
-					<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{% static "assets/images/blog/"%}{{post.image }}" alt="image">
+					<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{post.image.url }}" alt="image">
 					<div class="media-body">
 						<h3 class="title mb-1"><a href= {% url 'post_detail' post.slug %}>{{ post.title}}</a></h3>
 						<div class="meta mb-1"><span class="date">{{ post.publish_date }}</span><span class="time">5 min read</span><span class="comment"><a href="#">8 comments</a></span></div>
@@ -112,29 +112,56 @@
 				{% endif %}
 			  </nav>
 			-->
-			<div class="pagination">
-				<span class="step-links">
+			<div >
+			
+				<ul class="pagination justify-content-center" >
 					{% if posts.has_previous %}
-						<a href="?page=1">&laquo; first</a>
-						<a href="?page={{ posts.previous_page_number }}">previous</a>
+						<!--<a href="?page=1">&laquo; first</a> -->
+					<l1 class="page-item"><a href="?page={{ posts.previous_page_number }}" class="page-link">previous</a></l1>
 					{% endif %}
 			
-					<span class="current">
-						Page {{ posts.number }} of {{ posts.paginator.num_pages }}.
-					</span>
-			
+					{% for pg in posts.paginator.page_range %}
+					{% if posts.number == pg%}
+					<li class="page-item active"><a href="?page={{ pg }}" class="page-link">{{pg}}</a> </li>
+					{% else %}
+					<li class="page-item"><a href="?page={{ pg }}" class="page-link">{{pg}}</a> </li>
+					{% endif %}
+					{% endfor %}
 					{% if posts.has_next %}
-						<a href="?page={{ posts.next_page_number }}">next</a>
-						<a href="?page={{ posts.paginator.num_pages }}">last &raquo;</a>
+				<l1 class="page-item" ><a href="?page={{ posts.next_page_number }}" class="page-link">next</a></l1>
 					{% endif %}
-				</span>
+				</ul>
 			</div>
 			
 		</div>
 	</section>
-	
-	
 
+<!--- Pop up Modal-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLongTitle">Thansk you for Subscription.</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  We will Notify you whenever we make new post.
+		  I hope you will keep enjoying my post.
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+<!-- Popup modal end-->
+	
+{% endblock %}
+
+{% block jsScript %}
 
 {% endblock %}
 

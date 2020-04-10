@@ -16,8 +16,19 @@
     <script defer src="https://use.fontawesome.com/releases/v5.7.1/js/all.js" integrity="sha384-eVEQC9zshBn0rFj4+TU78eNA19HMNigMviK/PU/FFjLXqa/GKPgX58rvt5Z8PLs7" crossorigin="anonymous"></script>
     
     <!-- Theme CSS -->  
-    <link id="theme-style" rel="stylesheet" href="{% static "/assets/css/theme-1.css" %}">
+    <link id="theme-style" rel="stylesheet" href="{% static "/assets/css/theme-7.css" %}">
+    
+    {% block cssBody %}
+    <!-- Append Sub page here-->
+    {% endblock %}
 
+    <style>
+        .errorClass1 {
+    color: red;
+    margin-top: 0px;
+    margin-left: -329px;
+       }
+       </style>
 </head> 
 
 <body>
@@ -34,7 +45,7 @@
 				<div class="profile-section pt-3 pt-lg-0">
 				    <img class="profile-image mb-3 rounded-circle mx-auto" src="{% static "assets/images/khan.jpg" %}" alt="image" >			
 					
-					<div class="bio mb-3">Hi, my name is Anthony Doe. Briefly introduce yourself here. You can also provide a link to the about page.<br><a href="{% url 'about' %}">Find out more about me</a></div><!--//bio-->
+					<div class="bio mb-3">{{aboutData.brief_summary}}<br><a href="{% url 'about' %}">Find out more about me</a></div><!--//bio-->
 					<ul class="social-list list-inline py-3 mx-auto">
 			            <li class="list-inline-item"><a href="https://twitter.com/taukir707" target="blank"><i class="fab fa-twitter fa-fw"></i></a></li>
 			            <li class="list-inline-item"><a href="https://www.linkedin.com/in/mohd-tauovir-khan-575b7b79/" target="blank"><i class="fab fa-linkedin-in fa-fw"></i></a></li>
@@ -118,7 +129,7 @@
     <script src="{% static "assets/js/demo/style-switcher.js" %} "></script>     
     
  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.14.2/highlight.min.js"></script>
-
+ <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
  <!-- Custom JS -->
  <script src="{% static "assets/js/blog.js" %} "></script>
  

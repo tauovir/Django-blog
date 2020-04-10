@@ -1,6 +1,7 @@
 import os
 from django.db import models
 from django.conf import settings
+from ckeditor_uploader.fields import RichTextUploadingField
 
 # Create your models here.
 def imagePath():
@@ -9,9 +10,10 @@ def imagePath():
 class Posts(models.Model):
     title = models.CharField(max_length=120) # max_length required
     slug = models.SlugField(max_length=120) # max_length required
-    summary = models.TextField(blank=False, null=False)
-    image = models.ImageField(upload_to = 'blog/static/assets/images/blog/')
-    banner_image = models.ImageField(upload_to = 'blog/static/assets/images/blog/')
+    summary = RichTextUploadingField(blank=False, null=False)
+    image = models.ImageField(upload_to = 'blog_image')
+
+    banner_image = models.ImageField(upload_to = 'banner_image', blank = True)
     reference_url = models.URLField(max_length = 200, default='https://github.com/tauovir')
     # It will show the title in admin panel instead of objects(id)
     def __str__(self):
@@ -30,9 +32,9 @@ class Posts(models.Model):
 class PostDetail(models.Model):
     post = models.ForeignKey(Posts, on_delete=models.CASCADE)
     title = models.CharField(max_length=120) # max_length required
-    summary = models.TextField(blank=False, null=False)
-    code = models.TextField(blank=False, null=False)
-    image = models.ImageField(upload_to = 'blog/static/assets/images/blog/')
+    summary = RichTextUploadingField(blank=False, null=False)
+    code = RichTextUploadingField(blank=False, null=False)
+    image = models.ImageField(upload_to = 'blog_image')
     class IsPublish(models.IntegerChoices):
         NOT_PUBLISH = 0
         PUBLISH = 1
@@ -47,10 +49,12 @@ class PostDetail(models.Model):
    
    
 class About(models.Model):
-    summary = models.TextField() # max_length required
-    skils = models.TextField(blank=False, null=False)
-    blog_summary = models.TextField(blank=False, null=False)
-    image = models.ImageField(upload_to = 'blog/static/assets/images/blog/')
+    brief_summary = RichTextUploadingField() 
+    detail_summary = RichTextUploadingField() 
+    skils = RichTextUploadingField(blank=False, null=False)
+    blog_summary = RichTextUploadingField(blank=False, null=False)
+    image = models.ImageField(upload_to = 'profile')
+    blog_image = models.ImageField(upload_to = 'profile')
     created_at = models.DateField() 
     updated_at = models.DateField(auto_now_add = True) 
     # It will show the title in admin panel instead of objects(id)

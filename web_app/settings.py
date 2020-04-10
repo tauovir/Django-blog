@@ -24,8 +24,8 @@ SECRET_KEY = '8e0p!a4zm6nceupilti_&-+c*x722zkczvxjza0nih*i9&s1%u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
 ALLOWED_HOSTS = []
+#ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #own registry
+    'ckeditor',
+    'ckeditor_uploader',
     'blog'
 ]
 
@@ -129,5 +131,26 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'blog/static/assets/images/blog/') # Path where we want to store outr filr
 
-#LOCAL_FILE_DIR = "/static/assets/images/blog/"
+#=============Email Setting============
+SENDGRID_API_KEY = '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'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER =  'roman.seth' #'Your Sendgrid user'
+EMAIL_HOST_PASSWORD =  'roman@555355' #'yOUR sENDGRID PASSWORD'
+EMAIL_PORT= 587
+EMAIL_USE_TLS = True
+DEFAULT_TO_EMAIL = 'taukir707@gmail.com'
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "Contact Emial receieved from Blog"
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+############################### CKEDITOR CONFIGURATION ###################
+CKEDITOR_JQUERY_URL = 'https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js' #refers to the jquery file which CKEditor uses.
+CKEDITOR_UPLOAD_PATH = 'ckuploads/' # refers the directory where images will be uploaded relative to your MEDIA_ROOT.
+CKEDITOR_IMAGE_BACKEND = "pillow" # refers to the image library which CKEditor uses to create thumbnails to display in CKEditor gallery.
+CKEDITOR_CONFIGS = { # refer to the settings which CKEditor uses to customize its appearance and behavior.
+    'default': {
+        'toolbar': None,
+    },
+}
+###################################

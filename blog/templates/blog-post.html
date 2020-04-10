@@ -15,26 +15,26 @@
 			
 			<div class="blog-post-body">
 				<figure class="blog-banner">
-					<a href="https://made4dev.com"><img class="img-fluid" src="{% static  "assets/images/blog/cnn.png" alt="image" %}"></a>
+					<a href="https://made4dev.com"><img class="img-fluid" src="{{ posts.banner_image.url }}" alt="image" %}"></a>
 					<figcaption class="mt-2 text-center image-caption">Source Code : <a href="{{posts.reference_url}}" target="_blank">Get More reference from here</a></figcaption>
 				</figure>
-				<p>  {{ posts.summary }} </p>
+				<p>  {{ posts.summary | safe }} </p>
 				
 				<!-- Sub headings-->
 
 				{% for data in postDetail %}
 
 				<h3 class="mt-5 mb-3">{{data.title}}</h3>
-				<p> {{data.summary}} </p>
+				<p> {{data.summary | safe}} </p>
 				<div class="item">
 					<div class="media">
-						<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{% static "assets/images/blog/cnn.png" %} " alt="image">
+						<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{data.image.url }}" alt="image">
 					</div><!--//media-->
 				</div><!--//item-->
 				<br/>
 				<pre>
 				<code>
-					{{data.code}}
+					{{data.code | safe}}
 					</code>
 				</pre>
 				
