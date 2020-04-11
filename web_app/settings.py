@@ -135,10 +135,10 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR,'blog/static/assets/images/blog/') # Path where we want to store outr filr
 
 #=============Email Setting============
-SENDGRID_API_KEY = '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'
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_HOST_USER =  'roman.seth' #'Your Sendgrid user'
-EMAIL_HOST_PASSWORD =  'roman@555355' #'yOUR sENDGRID PASSWORD'
+SENDGRID_API_KEY = 'xyz'
+EMAIL_HOST = 'xyz'
+EMAIL_HOST_USER =  'xyz' #'Your Sendgrid user'
+EMAIL_HOST_PASSWORD =  'xyz' #'yOUR sENDGRID PASSW
 EMAIL_PORT= 587
 EMAIL_USE_TLS = True
 DEFAULT_TO_EMAIL = 'taukir707@gmail.com'
