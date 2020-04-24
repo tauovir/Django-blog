@@ -1,44 +1,52 @@
-
 {% extends 'layout.html' %}
-
-{% block mainBody%}
 {% load static %}
 
-	    	    
+{% block mainBody%}
+   	    
 	<article class="about-section py-5">
 		<div class="container">
-			<h2 class="title mb-3">About Me:{{aboutData.image}}</h2>
-		  	  <!-- <p>{{aboutData.detail_summary}} </p> -->
-            <!-- <figure><img class="img-fluid" src="{% static aboutData.image %}" alt="image"></figure> -->
-            <h5 class="mt-5">About The Blog</h5>
-            <!--<p>{{aboutData.blog_summary}}</p> -->
-        <!--    <figure><img class="img-fluid" src="{% static aboutData.blog_image %}" alt="image"></figure> -->
-            <h5 class="mt-5">My Skills and Experiences</h5>
-            <!-- <p>{{aboutData.skils}}</p> -->
-
-
-			 
-			<h5 class="mt-5">Side Projects</h5>
-			<p>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.</p>
+			<h2 class="title mb-3">About Me:</h2>
+			<p>{{aboutData.detail_summary | safe}} </p>
 			
+        <figure><img class="img-fluid" src="{{ aboutData.blog_image.url }}" alt="image"></figure>
+		<h5 class="mt-5">About The Blog</h5>
+		 <p>{{aboutData.blog_summary | safe}}</p>
+		 <h5 class="mt-5">My Skills and Experiences</h5>
+		 <p>{{aboutData.skils | safe}}</p>
+
+		 <!--
+		 <h5 class="mt-5">Side Projects</h5>
+			<p>Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi.</p>
 			<figure><a href="https://made4dev.com"><img class="img-fluid" src="{% static  "assets/images/promo-banner.jpg" %} " alt="image"></a></figure>
+	-->
 		</div>
 	</article><!--//about-section-->
 	
-	<section class="cta-section theme-bg-light py-5">
-		<div class="container text-center">
-			<h2 class="heading">Newsletter</h2>
-			<div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
-			<form class="signup-form form-inline justify-content-center pt-3">
-				<div class="form-group">
-					<label class="sr-only" for="semail">Your email</label>
-					<input type="email" id="semail" name="semail1" class="form-control mr-md-1 semail" placeholder="Enter email">
-				</div>
-				<button type="submit" class="btn btn-primary">Subscribe</button>
-			</form>
-		</div><!--//container-->
-	</section>
 	
+<section class="cta-section theme-bg-light py-5">
+	<div class="container text-center">
+		<h2 class="heading">Newsletter</h2>
+		<div class="intro">Welcome to my blog. Subscribe and get my latest blog post in your inbox.</div>
+		<form class="signup-form form-inline justify-content-center pt-3">
+			<div class="form-group">
+				<label class="sr-only" for="semail">Your email</label>
+				<input type="email" id="semail" name="semail1" class="form-control mr-md-1 semail" placeholder="Enter email">
+			</div>
+			<button type="submit" class="btn btn-primary">Subscribe</button>
+		</form>
+	</div><!--//container-->
+</section>
+
+
+
+
+
+			
+	   
+
+
+		 
+		
 	
 
 {% endblock %}

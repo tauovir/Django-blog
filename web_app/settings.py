@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     #own registry
     'ckeditor',
     'ckeditor_uploader',
-    'blog'
+    'blog',
+    'clear_cache',
+
 ]
 
 MIDDLEWARE = [
@@ -132,7 +134,8 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'blog/static/assets/images/blog/') # Path where we want to store outr filr
+#MEDIA_ROOT = os.path.join(BASE_DIR,'blog/static/assets/images/blog/') # Path where we want to store outr filr
+MEDIA_ROOT = os.path.join(BASE_DIR,'media/') # Path where we want to store outr filr
 
 #=============Email Setting============
 SENDGRID_API_KEY = 'xyz'

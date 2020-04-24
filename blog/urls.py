@@ -1,5 +1,7 @@
 from django.urls import path
 from blog import views
+#import .views
+#from blog.views import portfolio
 
 
 urlpatterns = [
@@ -8,5 +10,6 @@ urlpatterns = [
     path('about/', views.about, name='about'),
     path('post_detail/<slug:slug>', views.post_detail_view, name='post_detail'),
     path('subscribe/', views.subscribe, name='subscribe'),
+    path('portfolio/', views.portfolio_view, name='portfolio'),
     
 ]

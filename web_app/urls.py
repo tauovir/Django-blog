@@ -20,6 +20,12 @@ from django.conf.urls import url
 from django.conf import settings
 from django.conf.urls.static import static
 
+#===========Admin Panel Setting =====
+admin.site.site_header = "MachineBlog Control Panel"
+admin.site.site_title = "MachineBlog Control Panel"
+admin.site.index_title = "MachineBlog Panel"
+
+
 urlpatterns = [
     path('', include('blog.urls')),
     path('admin/', admin.site.urls),

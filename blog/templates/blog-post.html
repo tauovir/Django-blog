@@ -1,43 +1,144 @@
 {% extends 'layout.html' %}
 
+{% block cssBody %}
+<style>
+	code { 
+	  font-family:monospace
+	}
+	pre { 
+	  background-color: lightgray;
+	}
+	samp { 
+	  font-family: monospace;
+	  font-size: 14px;
+	}
+</style>
+{% endblock %}
+
+
 {% block mainBody%}
-{% load static %}
-
-
-
-	    
+{% load static %}	    
 	<article class="blog-post px-3 py-5 p-md-5">
 		<div class="container">
 			<header class="blog-post-header">
 				<h2 class="title mb-2">{{ posts.title }}</h2>
 				<div class="meta mb-3"><span class="date">Published on: {{ posts.publish_date|date:'l,N,Y' }}</span><span class="time">5 min read</span><span class="comment"><a href="#">4 comments</a></span></div>
 			</header>
-			
+			<hr/>
 			<div class="blog-post-body">
 				<figure class="blog-banner">
 					<a href="https://made4dev.com"><img class="img-fluid" src="{{ posts.banner_image.url }}" alt="image" %}"></a>
 					<figcaption class="mt-2 text-center image-caption">Source Code : <a href="{{posts.reference_url}}" target="_blank">Get More reference from here</a></figcaption>
 				</figure>
+				<hr/>
 				<p>  {{ posts.summary | safe }} </p>
-				
+				<hr/>
+
+				{% if posts.image %}
+				<figure class="blog-banner">
+					<a href="https://made4dev.com"><img class="img-fluid" src="{{ posts.image.url }}" alt="image" %}"></a>
+				</figure>
+				<hr/>
+				{% endif %}
 				<!-- Sub headings-->
+
+{% if posts.code %}		
+<pre class="pre-scrollable">
+<code>
+{{posts.code}}
+</code>
+</pre>
+<hr/>
+{% endif %}
+
+
+{% if posts.code_image %}
+<div class="item">
+	<div class="media">
+		<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{posts.code_image.url }}" alt="image">
+	</div><!--//media-->
+</div><!--//item-->
+<hr/>
+{% endif %}
+
+{% if posts.output %}	
+<header class="blog-post-header">
+	<h4 class="title mb-2">Output</h4>
+</header>
+<samp>
+	{{posts.output}}
+</samp>
+<hr/>
+{% endif %}
+
+{% if posts.output_image %}
+<h4 class="title mb-2">Output</h4>
+<div class="item">
+	<div class="media">
+		<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{posts.output_image.url }}" alt="image">
+	</div><!--//media-->
+</div><!--//item-->
+<hr/>
+{% endif %}
+
+
+
+
+
+				
 
 				{% for data in postDetail %}
 
 				<h3 class="mt-5 mb-3">{{data.title}}</h3>
 				<p> {{data.summary | safe}} </p>
+				<hr/>
+				{% if data.image %}
 				<div class="item">
 					<div class="media">
 						<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{data.image.url }}" alt="image">
 					</div><!--//media-->
 				</div><!--//item-->
-				<br/>
-				<pre>
-				<code>
-					{{data.code | safe}}
-					</code>
-				</pre>
-				
+				<hr/>
+				{% endif %}
+{% if data.code %}		
+<pre class="pre-scrollable">
+<code>
+{{data.code}}
+</code>
+</pre>
+<hr/>
+{% endif %}
+
+{% if data.code_image %}
+<div class="item">
+	<div class="media">
+		<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{data.code_image.url }}" alt="image">
+	</div><!--//media-->
+</div><!--//item-->
+<hr/>
+{% endif %}
+
+{% if data.output %}	
+<header class="blog-post-header">
+	<h4 class="title mb-2">Output</h4>
+</header>
+<samp>
+	{{data.output}}
+</samp>
+<hr/>
+{% endif %}
+
+{% if data.output_image %}
+<h4 class="title mb-2">Output</h4>
+<div class="item">
+	<div class="media">
+		<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{data.output_image.url }}" alt="image">
+	</div><!--//media-->
+</div><!--//item-->
+<hr/>
+{% endif %}
+
+
 {% endfor %}
 				<!--
 				<h3 class="mt-5 mb-3">Video Example</h3>
