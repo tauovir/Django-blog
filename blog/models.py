@@ -125,6 +125,7 @@ class Technologies(models.Model):
     category = models.ForeignKey(Technology_Category, on_delete=models.CASCADE)
     name = models.CharField(max_length=120,null=False) # max_length required
     version = models.CharField(max_length=120, default = '', blank=True) # max_length required
+    rate = models.SmallIntegerField(default = 70) # max_length required
     class isOther(models.IntegerChoices):
         yes = 1
         no = 0
@@ -200,7 +201,8 @@ class User_Language(models.Model):
 
 class Certificates(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-    name = models.CharField(max_length=100,null = True) # max_length required
+    name = models.CharField(max_length=200,null = True) # max_length required
+    short_name = models.CharField(max_length=100,null = True) # max_length required
     institute_short_name= models.CharField(max_length=50,null = True) # max_length required
     institute_full_name= models.CharField(max_length=100,null = True) # max_length required
     complition_date= models.DateField() # max_length required
@@ -227,8 +229,8 @@ class Educations(models.Model):
     def __str__(self):
         return  self.course_full_name
 
-# class User_Education(models.Model):
-#     Profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
-#     language = models.ForeignKey(Educations, on_delete=models.CASCADE)
-#     created_at = models.DateField(default=datetime.date.today) 
+class User_Interest(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    name = models.CharField(max_length=50,null = True) 
+    created_at = models.DateField(default=datetime.date.today) 
 

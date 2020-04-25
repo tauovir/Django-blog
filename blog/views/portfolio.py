@@ -1,7 +1,7 @@
 
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
-from ..models import Profile,Employment,Projects,Technologies
+from ..models import Profile,Employment,Projects,Technology_Category
 from django.conf import settings
 import json
 from ..errorMessage import getApiMsg
@@ -10,16 +10,27 @@ import re
 
 
 def portfolio_view(request):
-    # querySet = Employment.objects.all()
-    # profileData = querySet[0]
-    # context = {'data':querySet,'profileData' : profileData}
-    # print(profileData.profile.last_name)
-    # #print(data['data'][0].profile.first_name)
-    #for e in data
     querySet = Projects.objects.all()
     formatedData = makeData(querySet)
-    print(formatedData)
-    context = {'formatedData' :formatedData }
+    catTechSet = Technology_Category.objects.all()
+    techList, otherTech  = formatTechnology(catTechSet)
+
+    educationSet = Profile.objects.first().educations_set.filter(is_school = 0)
+    educationData = [{'short_name' : x.course_short_name,'full_name' :x.course_full_name,'start_year':x.start_year,'end_year':x.end_year} for x in educationSet]
+    certificateSet = Profile.objects.first().certificates_set.all()
+    certificateData = [{'name' : x.name,'short_name':x.short_name,'institute_short_name' : x.institute_short_name} for x in certificateSet]
+    interestSet = Profile.objects.first().user_interest_set.all()
+    intresteList = [ x.name for x in interestSet]
+
+    context = {
+        'formatedData' :formatedData,
+        'techData':techList,
+        'otherTech' : otherTech,
+        'educationData' : educationData,
+        'certificateData' : certificateData,
+        'intresteList' : intresteList,
+        
+        }
     return render(request, 'portfolio.html', context)
    
 
@@ -90,3 +101,33 @@ def makeData(querySet):
 
         
     return resultData
+
+
+# Formatting Technology data
+def formatTechnology(catTechSet):
+    catList = []
+    otherTech = []
+    for cat in catTechSet:
+        if cat.name == 'Others':
+            tempOther = cat.technologies_set.all()
+            otherTech = [x.name for x in tempOther]
+        else:
+            techList = []
+            catTemp = {'name' : cat.name}
+            temp = cat.technologies_set.all()
+            techList = [{'name' : x.name,'version':x.version,'rate':x.rate} for x in temp]
+            catTemp = {cat.name : techList}
+            catList.append(catTemp)
+
+    return catList,otherTech
+
+
+
+"""
+cat = Technology_Category.objects.get(pk = 1)
+cat.technologies_set.all()
+cat1 = Technology_Category.objects.all();
+for ct in cat1:
+    ...:     print(ct.technologies_set.all())
+
+"""
