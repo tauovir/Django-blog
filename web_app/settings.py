@@ -42,6 +42,14 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'blog',
     'clear_cache',
+    # All auth
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    # Required service provoider
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
 
 ]
 
@@ -68,6 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # `allauth` needs this from django
+                'django.template.context_processors.request',
             ],
         },
     },
@@ -157,3 +167,19 @@ CKEDITOR_CONFIGS = { # refer to the settings which CKEditor uses to customize it
     },
 }
 ###################################
+
+#=============All Auth Setting=================
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+SITE_ID = 1
+ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
+LOGIN_REDIRECT_URL = '/comment-redirect'
+
+# Client Id(Google) : 35106197578-8j8ea1frd1mjeihbk8la4hiltnjqgujp.apps.googleusercontent.com
+# Client Secrte :  wnEhag9dPJglA4d1rblzG9g-
+# Facebook clientId : 574183413211945
+# Facebook sec : b57de193dd51496e618816e7b802c780

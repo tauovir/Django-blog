@@ -87,7 +87,23 @@ class About(models.Model):
     blog_image = models.ImageField(upload_to = 'profiles')
     created_at = models.DateField(default=datetime.date.today) 
     updated_at = models.DateField(auto_now_add = True) 
-    # It will show the title in admin panel instead of objects(id)
+    
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, default=1)
+    post = models.ForeignKey(Posts, on_delete=models.CASCADE)
+    comment = models.CharField(max_length=250) # max_length required
+    replied_on= models.IntegerField(default=0)
+    created_at = models.DateField(default=datetime.date.today) 
+    def __str__(self):
+        return  self.comment
+
+class Contactus(models.Model):
+    name = models.CharField(max_length=100) # max_length required
+    email= models.EmailField(max_length = 150)
+    message= models.TextField()
+    created_at = models.DateField(default=datetime.datetime.now()) 
+    def __str__(self):
+        return  self.name
 
 # =====================Creating Portfolio Model/Database ==============================
 

@@ -1,9 +1,12 @@
 {% extends 'layout.html' %}
-
+{% load static %}
+{% load socialaccount %}
+  {% providers_media_js %}
 {% block cssBody %}
 <style>
 	code { 
-	  font-family:monospace
+	  font-family:monospace;
+	  margin-left: 20px;
 	}
 	pre { 
 	  background-color: lightgray;
@@ -13,11 +16,14 @@
 	  font-size: 14px;
 	}
 </style>
+
+<link id="theme-style" rel="stylesheet" href="{% static "/assets/css/comment.css" %}">
+    
 {% endblock %}
 
 
 {% block mainBody%}
-{% load static %}	    
+	    
 	<article class="blog-post px-3 py-5 p-md-5">
 		<div class="container">
 			<header class="blog-post-header">
@@ -80,12 +86,6 @@
 </div><!--//item-->
 <hr/>
 {% endif %}
-
-
-
-
-
-				
 
 				{% for data in postDetail %}
 
@@ -156,61 +156,171 @@
 			</nav>>
 			-->
 			<h1> >>>>>Thank you for reading>>>>>>></h1>
-			<div class="blog-comments-section">
-				<div id="disqus_thread"></div>
+
+			<section class="promo-section theme-bg-light py-5 text-center">
+				<div class="container">
+					<h2 class="title">Promo Section Heading</h2>
+					<p>You can use this section to promote your side projects etc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
+					<figure class="promo-figure">
+						<a href="https://made4dev.com" target="_blank"><img class="img-fluid" src= "{% static "assets/images/promo-banner.jpg" %} " alt="image"></a>
+					</figure>
+				</div><!--//container-->
+			</section><!--//promo-section-->
+
+				<!--=====================Modal=====================-->
+				{% csrf_token %}
+				<input type="hidden" value="{{posts.id}}" name ="postId"/>
+				{% if request.user.is_authenticated %}
+				<input type="hidden" value="{{user.id}}" name = 'commenter'/>
+				{% else %}
+				<input type="hidden" value="" name = 'commenter'/>
+				{% endif %}
 				
-				<noscript>
-					Please enable JavaScript to view the 
-					<a href="https://disqus.com/?ref_noscript" rel="nofollow">
-						comments powered by Disqus.
-					</a>
-				</noscript>
+<div class="modal fade" id="modalSubscriptionForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Login to make public comment</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+			<a href="{% provider_login_url "google" %}" class="btn btn-google btn-user btn-block">
+				<i class="fab fa-google fa-fw"></i> Login with Google
+			  </a>
+        </div>
+        <div class="md-form mb-4">
+			<a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn btn-facebook btn-user btn-block">
+				<i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
+			  </a>
+			   
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<!-- <div class="text-center">
+  <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalSubscriptionForm">Launch
+    Modal Subscription Form</a>
+</div> -->
+				<!--=========================Modal end========================-->
+
+
+			<div class="blog-comments-section">
+				<div class="row">
+					<div class="col-12">
+					  <div class="comments">
+						<div class="comments-details">
+						  <span class="total-comments comments-sort">117 Comments</span>
+						   
+						</div>
+						<div class="comment-box add-comment">
+						  <span class="commenter-pic">
+							<img src="{% static "assets/images/avatar.jpg" %}" class="img-fluid">		
+						  </span>
+						  <span class="commenter-name">
+							<input type="text" placeholder="Add a public comment" name="comments" id ="add-commentId" >
+							
+							<button type="submit" class="btn btn-default" id ="commentBtn">Comment</button>
+							<!-- <button type="cancel" class="btn btn-default">Cancel</button> -->
+						  </span>
+						</div>
+						
+					
+						{% for cmt in comments%}
+						<div class="comment-box">
+						  <span class="commenter-pic">
+							<img src="{% static "assets/images/avatar.jpg" %}" class="img-fluid">
+						  </span>
+						  <span class="commenter-name">
+							<a href="#">{{cmt.user_name}}</a> <span class="comment-time">{{cmt.comment_date}}</span>
+						  </span>       
+						  <p class="comment-txt more">{{cmt.comment}}</p>
+						  <div class="comment-meta">
+							<button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+							<button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button> 
+							<button class="comment-reply reply-popup" id = {{cmt.comment_id}}><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</button>         
+						  </div>
+						
+
+						  <div class="comment-box add-comment reply-box" id = "rep_{{cmt.comment_id}}">
+							<span class="commenter-pic">
+								<img src="{% static "assets/images/avatar.jpg" %}" class="img-fluid">
+							</span>
+							<span class="commenter-name">
+							  <input type="text" placeholder="Add a public" class="commentReply" name="replyComment" id = "replyComment_{{cmt.comment_id}}">
+							  <button type="button" class="btn btn-default replybtn" id = {{cmt.comment_id}}>Reply</button>
+							  <!-- <button type="cancel" class="btn btn-default reply-popup" id = {{cmt.comment_id}}>Cancel</button> -->
+							</span>
+						  </div>
+						
+						  {% if cmt.reply %}
+						  {% for rep in cmt.reply %}
+						  <div class="comment-box replied">
+							<span class="commenter-pic">
+								<img src="{% static "assets/images/avatar.jpg" %}" class="img-fluid">
+							</span>
+							<span class="commenter-name">
+							  <a href="#">{{rep.user_name}}</a> <span class="comment-time">{{rep.comment_date}}</span>
+							</span>       
+							<p class="comment-txt more">{{rep.comment}}</p>
+							<!-- <div class="comment-meta">
+							  <button class="comment-like"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> 99</button>
+							  <button class="comment-dislike"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> 149</button> 
+							  <button class="comment-reply"><i class="fa fa-reply-all" aria-hidden="true"></i> Reply</button>         
+							</div> -->
+
+						  </div>
+						 
+						  {% endfor %}
+						  {% endif %}
+
+						</div>
+						{% endfor %}
+					
+
+					  </div>
+					</div>
+				  </div>
+				
+				
 			</div><!--//blog-comments-section-->
 			
 		</div><!--//container-->
 	</article>
 	
-	<section class="promo-section theme-bg-light py-5 text-center">
-		<div class="container">
-			<h2 class="title">Promo Section Heading</h2>
-			<p>You can use this section to promote your side projects etc. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. </p>
-			<figure class="promo-figure">
-				<a href="https://made4dev.com" target="_blank"><img class="img-fluid" src= "{% static "assets/images/promo-banner.jpg" %} " alt="image"></a>
-			</figure>
-		</div><!--//container-->
-	</section><!--//promo-section-->
+	<!--- Pop up Modal-->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLongTitle">Thansk you for Subscription.</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+		  We will Notify you whenever we make new post.
+		  I hope you will keep enjoying my post.
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary closeModel" data-dismiss="modal">Close</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+
+<!-- Popup modal end-->
 	
 
 {% endblock %}
 
 {% block jsScript %}
-<script>
-	/**
-	 *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT 
-	 *  THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR 
-	 *  PLATFORM OR CMS.
-	 *  
-	 *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: 
-	 *  https://disqus.com/admin/universalcode/#configuration-variables
-	 */
-	/*
-	var disqus_config = function () {
-		// Replace PAGE_URL with your page's canonical URL variable
-		this.page.url = PAGE_URL;  
-		
-		// Replace PAGE_IDENTIFIER with your page's unique identifier variable
-		this.page.identifier = PAGE_IDENTIFIER; 
-	};
-	*/
-	
-	(function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
-		var d = document, s = d.createElement('script');
-		
-		// IMPORTANT: Replace 3wmthemes with your forum shortname!
-		s.src = 'https://3wmthemes.disqus.com/embed.js';
-		
-		s.setAttribute('data-timestamp', +new Date());
-		(d.head || d.body).appendChild(s);
-	})();
-</script>
+<script src="{% static "assets/js/comment.js" %} "></script>
+
+
 {% endblock %}

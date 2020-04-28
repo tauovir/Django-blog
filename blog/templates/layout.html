@@ -3,7 +3,7 @@
 <html lang="en"> 
     {% load static %}
 <head>
-    <title>Bootstrap 4 Blog Template For Developers</title>
+    <title>techIdea</title>
     <!-- Meta -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -60,19 +60,17 @@
 					<li class="nav-item {% if request.resolver_match.url_name == 'post' %} active {% endif %}">
 					    <a class="nav-link" href="/"><i class="fas fa-home fa-fw mr-2"></i>Blog Home <span class="sr-only">(current)</span> </a>
 					</li>
-					<li class="nav-item ">
-					    <a class="nav-link" href="blog-post.html"><i class="fas fa-bookmark fa-fw mr-2"></i>Blog Post {{request.resolver_match.url_name}}</a>
-					</li>
+					
 					<li class="nav-item {% if request.resolver_match.url_name == 'about' %} active {% endif %}">
 					    <a class="nav-link" href="{% url 'about' %}"><i class="fas fa-user fa-fw mr-2"></i>About Me</a>
                     </li>
                     <li class="nav-item {% if request.resolver_match.url_name == 'portfolio' %} active {% endif %}">
 					    <a class="nav-link" href="{% url 'portfolio' %}"><i class="fas fa-user fa-fw mr-2"></i>Portfolio</a>
-					</li>
+                    </li>
 				</ul>
 				
 				<div class="my-2 my-md-3">
-				    <a class="btn btn-primary" href="https://themes.3rdwavemedia.com/" target="_blank">Get in Touch</a>
+				    <a class="btn btn-primary" href="{% url 'contactus' %}">Get in Touch</a>
 				</div>
 			</div>
 		</nav>
@@ -109,7 +107,7 @@
  <script src="{% static "assets/js/blog.js" %} "></script>
  
  <!-- Style Switcher (REMOVE ON YOUR PRODUCTION SITE) -->
- <script src="{% static "assets/js/demo/style-switcher.js" %} "></scrip
+ <script src="{% static "assets/js/demo/style-switcher.js" %} "></script>
 
     {% block jsScript %}
     

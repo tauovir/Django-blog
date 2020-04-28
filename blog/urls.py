@@ -11,5 +11,8 @@ urlpatterns = [
     path('post_detail/<slug:slug>', views.post_detail_view, name='post_detail'),
     path('subscribe/', views.subscribe, name='subscribe'),
     path('portfolio/', views.portfolio_view, name='portfolio'),
+    path('comment-redirect', views.commentRedirect, name='commentRedirect'),
+    path('comments', views.saveComment, name='saveComment'),
+    path('contactus/', views.saveContact, name='saveContact'),
     
 ]

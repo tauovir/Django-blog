@@ -55,8 +55,10 @@ def makeData(querySet):
             projectData['team_size'] = projects.team_size
             projectData['description'] = projects.description
             projectData['role_responsibility'] = projects.role_responsibility
-            tempTechList = projects.technology.all().values('name')
-            techList = [x['name'] for x in tempTechList]
+            #tempTechList = projects.technology.all().values('name')
+            #techList = [x['name'] for x in tempTechList]
+            tempTechList = projects.technology.all()
+            techList = [{'name':x.name,'version':x.version} for x in tempTechList]
             projectData['technology'] = techList
             projectList.append(projectData)
             # Bind Employement data
@@ -79,8 +81,10 @@ def makeData(querySet):
             projectData['team_size'] = projects.team_size
             projectData['description'] = projects.description
             projectData['role_responsibility'] = projects.role_responsibility
-            tempTechList = projects.technology.all().values('name')
-            techList = [x['name'] for x in tempTechList]
+            # tempTechList = projects.technology.all().values('name')
+            # techList = [x['name'] for x in tempTechList]
+            tempTechList = projects.technology.all()
+            techList = [{'name':x.name,'version':x.version} for x in tempTechList]
             projectData['technology'] = techList
             projectList.append(projectData)
             

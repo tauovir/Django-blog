@@ -1,6 +1,6 @@
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
-from ..models import Posts,PostDetail,About
+from ..models import Posts,PostDetail,About,Comment
 from django.core.paginator import Paginator
 from .. import forms
 
@@ -10,9 +10,12 @@ from django.template.loader import get_template
 import json
 from ..errorMessage import getApiMsg
 import re 
+from ..utility import utils
+from django.contrib.auth import login, authenticate,logout
 # Create your views here.
 
 def post(request,num = 1):
+    #logout(request)
     #obj =Posts.objects.all()[:5]
     limit = 7
     posts = Posts.objects.filter(is_publish=1).order_by('publish_date')
@@ -45,14 +48,18 @@ def post_detail_view(request,slug):
     try:
         post = Posts.objects.get(slug=slug)
         post_detail = PostDetail.objects.filter(post = post)
+        commetQuerySet = Comment.objects.filter(post = post).order_by('-created_at')
+        comments = utils.setCommentFormat(commetQuerySet)
         context = {
             'posts': post,
-            'postDetail' : post_detail
+            'postDetail' : post_detail,
+            'comments' : comments,
         }
     except Posts.DoesNotExist:
         raise Http404("Page Not exist")
-   
+    utils.writeTempFile(slug)
     return render(request, 'blog-post.html', context)
+    #return render(request, 'std.html', context)
 
 def about(request):
     aboutData = About.objects.get(id = 1)
@@ -103,3 +110,18 @@ def sendSubscriptionEmail(fromEmail):
     )
     return response
 
+
+# Since Allauth not staying on same page ,We have redicred on that page using slug
+def commentRedirect(request):
+    slug =  utils.writeTempFile()
+    return redirect('post_detail/'+slug)
+
+
+# def getSession(request):
+#     if request.session.has_key('slug'):
+#         slug = request.session['slug']
+#         return redirect('post_detail/'+slug)
+#     else:
+#         print("Session not found")
+#         return redirect('post')
+    

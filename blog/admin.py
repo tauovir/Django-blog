@@ -4,7 +4,8 @@ from django.utils import timezone
 from blog.models import (
     Posts,Employment,PostDetail,About,Post_Subjects,
     Profile,Projects,Technology_Category,Technologies,Languages,
-    Language_Proficiency,User_Language,Certificates,Educations,User_Interest
+    Language_Proficiency,User_Language,Certificates,Educations,User_Interest,
+    Comment,
 )
 
 class PostsAdmin(admin.ModelAdmin):
@@ -40,7 +41,7 @@ admin.site.register(User_Language)
 admin.site.register(Certificates)
 admin.site.register(Educations)
 admin.site.register(User_Interest)
-#admin.site.register(Project_Technology)
+admin.site.register(Comment)
 
 
 

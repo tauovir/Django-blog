@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+{% load static %}
+{% load app_filters %}
+<html lang="en"> 
+<head>
+    <title>portfolio</title>
+    
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Responsive Resume Template">
+    <meta name="author" content="Xiaoying Riley at 3rd Wave Media">    
+    <link rel="shortcut icon" href="{% static "assets/images/title-icon.png" %}"> 
+   
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
+    
+    <!-- FontAwesome JS-->
+    <script defer src="https://use.fontawesome.com/releases/v5.1.1/js/all.js" integrity="sha384-BtvRZcyfv4r0x/phJt9Y9HhnN5ur1Z+kZbKVgzVBAlQZX4jvAuImlIz+bG7TS00a" crossorigin="anonymous"></script>
+       
+    <!-- Theme CSS -->  
+    <link id="theme-style" rel="stylesheet" href="{% static "assets/css/portfolio/pillar-1.css" %}">
+
+
+</head> 
+
+<body>	
+
+    <article class="resume-wrapper text-center position-relative">
+	    <div class="resume-wrapper-inner mx-auto text-left bg-white shadow-lg">
+		    <header class="resume-header pt-4 pt-md-0">
+			    <div class="media flex-column flex-md-row">
+				    <img class="mr-3 img-fluid picture mx-auto" src="{% static "assets/images/profile-pic.jpg" %}"  alt="">
+				    <div class="media-body p-4 d-flex flex-column flex-md-row mx-auto mx-lg-0">
+					    <div class="primary-info">
+						    <h1 class="name mt-0 mb-1 text-white text-uppercase text-uppercase">{{ formatedData.name }}</h1>
+						    <div class="title mb-3">{{ formatedData.profile_title }}</div>
+						    <ul class="list-unstyled">
+							    <li class="mb-2"><a href="#"><i class="far fa-envelope fa-fw mr-2" data-fa-transform="grow-3"></i>{{ formatedData.email }}</a></li>
+							    <li><a href="#"><i class="fas fa-mobile-alt fa-fw mr-2" data-fa-transform="grow-6"></i>{{ formatedData.mobile_number }}</a></li>
+						    </ul>
+					    </div><!--//primary-info-->
+					    <div class="secondary-info ml-md-auto mt-2">
+						    <ul class="resume-social list-unstyled">
+				                <li class="mb-3"><a href="https://www.linkedin.com/in/mohd-tauovir-khan-575b7b79/"><span class="fa-container text-center mr-2"><i class="fab fa-linkedin-in fa-fw"></i></span>linkedin.com/in/tauovir</a></li>
+				                <li class="mb-3"><a href="https://github.com/tauovir"><span class="fa-container text-center mr-2"><i class="fab fa-github-alt fa-fw"></i></span>github.com/tauovir</a></li>
+				               <!--  <li class="mb-3"><a href="#"><span class="fa-container text-center mr-2"><i class="fab fa-codepen fa-fw"></i></span>codepen.io/username/</a></li>
+				                <li><a href="#"><span class="fa-container text-center mr-2"><i class="fas fa-globe"></i></span>yourwebsite.com</a></li> -->
+						    </ul>
+					    </div><!--//secondary-info-->
+					    
+				    </div><!--//media-body-->
+			    </div><!--//media-->
+		    </header>
+		    <div class="resume-body p-5">
+			    <section class="resume-section summary-section mb-5">
+				    <h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Career Objective &  Summary</h2>
+				    <div class="resume-section-content">
+					    <p class="mb-0">
+							
+					    <ul>
+						{% with formatedData.brief_summary|splitString:"#" as skills %}
+							{% for skill in skills %}
+						<li>
+							{{ skill }}<br>
+						</li>
+						{% endfor %}
+					{% endwith %}
+					</ul>
+						
+					    </p>
+				    </div>
+			    </section><!--//summary-section-->
+			    <div class="row">
+				    <div class="col-lg-9">
+					    <section class="resume-section experience-section mb-5">
+						    <h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Work Experience</h2>
+						    <div class="resume-section-content">
+							    <div class="resume-timeline position-relative">
+
+								{% for emp in  formatedData.employments%}
+								    <article class="resume-timeline-item position-relative pb-5">
+									    <div class="resume-timeline-item-header mb-2">
+										    <div class="d-flex flex-column flex-md-row">
+										        <h3 class="resume-position-title font-weight-bold mb-1">{{emp.position}}</h3>
+										        <div class="resume-company-name ml-auto">{{emp.employer}}</div>
+										    </div><!--//row-->
+										    <div class="resume-position-time">{{emp.start_date |date:"Y"}} - {% if emp.is_current_org == 1%}- Present {% else %} {{emp.end_date |date:"Y"}} {% endif %}</div>
+									    </div><!--//resume-timeline-item-header-->
+									    <div class="resume-timeline-item-desc">
+										    <p>{{emp.summary}}</p>
+											{% for project in emp.projects %}
+											<h4 class="resume-timeline-item-desc-heading font-weight-bold">Projects: {{project.name}}</h4>
+										    <p>{{project.description}}</p>
+										    Role & Responsibilities:
+										    <ul>
+											{% with project.role_responsibility|splitString:"#" as respo %}
+											{% for role in respo %}
+											<li>
+												{{ role }}<br>
+											</li>
+											{% endfor %}
+											{% endwith %}
+												<!-- <li>{{project.role_responsibility}}</li>
+											    <li>Data collection, Extracting frames,Verifying data quality. </li>
+											    <li>Analyzing the nature of data ,Finding data pattern & Feature engineering.</li>
+											    <li>implementing APIs and collaborating with front-end team</li> -->
+											    
+											</ul>
+											
+											{% if project.technology %}
+										    <h4 class="resume-timeline-item-desc-heading font-weight-bold">Technologies used:</h4>
+										    <ul class="list-inline">
+												{% for tech in project.technology %}
+		
+											    <li class="list-inline-item"><span class="badge badge-primary badge-pill">{{tech.name}} {{tech.version}}</span></li>
+												{%endfor%}
+											</ul>
+										</br>
+											{% endif %}
+
+											{% endfor %}
+										   </div><!--//resume-timeline-item-desc-->
+
+								    </article><!--//resume-timeline-item-->
+									
+									{% endfor%}
+
+							    </div><!--//resume-timeline-->
+							    
+						    </div>
+					    </section><!--//experience-section-->
+				    </div>
+				    <div class="col-lg-3">
+					    <section class="resume-section skills-section mb-5">
+						    <h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Skills &amp; Tools</h2>
+						    <div class="resume-section-content">
+								{% for dict1 in techData %}
+								{% for key,val in dict1.items %}
+						    	 <div class="resume-skill-item">
+							        <h4 class="resume-skills-cat font-weight-bold">{{key}}</h4>
+							        <ul class="list-unstyled mb-4">
+										{% for tech in val%}
+								        <li class="mb-2">
+								            <div class="resume-skill-name">{{tech.name}} {{tech.version}}</div>
+									        <div class="progress resume-progress">
+											    <div class="progress-bar theme-progress-bar-dark" role="progressbar" style="width: {{tech.rate}}%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="60"></div>
+											</div>
+								        </li>
+										{%endfor%}
+										{%endfor%}
+										{%endfor%}
+								       
+								        
+							        </ul>
+						        </div><!--//resume-skill-item-->
+						        
+						        <div class="resume-skill-item">
+						            <h4 class="resume-skills-cat font-weight-bold">Others</h4>
+						            <ul class="list-inline">
+							            {% for othr in otherTech %}
+							            <li class="list-inline-item"><span class="badge badge-light">{{othr}}</span></li>
+							            {% endfor %}
+							            
+						            </ul>
+								</div><!--//resume-skill-item-->
+								
+						    </div><!--resume-section-content-->
+					    </section><!--//skills-section-->
+					    <section class="resume-section education-section mb-5">
+						    <h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Education</h2>
+						    <div class="resume-section-content">
+							    <ul class="list-unstyled">
+									{% for edu in educationData %}
+									<li class="mb-2">
+								        <div class="resume-degree font-weight-bold">{{edu.full_name}}({{edu.short_name}})</div>
+								        <!-- <div class="resume-degree-org">Meerut Institue of Technology</div> -->
+								        <div class="resume-degree-time">{{edu.start_year}} - {{edu.end_year}} </div>
+								    </li>
+									{% endfor %}
+								   
+							    </ul>
+						    </div>
+					    </section><!--//education-section-->
+					    <section class="resume-section reference-section mb-5">
+						    <h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Certificate</h2>
+						    <div class="resume-section-content">
+							    <ul class="list-unstyled resume-awards-list">
+									{% for cert in certificateData %}
+								    <li class="mb-2 pl-4 position-relative">
+								        <i class="resume-award-icon fas fa-certificate position-absolute" data-fa-transform="shrink-2"></i>
+								        <div class="resume-award-name">{{cert.short_name}}</div>
+								        <div class="resume-award-desc">{{cert.name}} from {{cert.institute_short_name}}.</div>
+								    </li>
+								    {% endfor %}
+							    </ul>
+						    </div>
+					    </section><!--//interests-section-->
+					    <section class="resume-section language-section mb-5">
+						    <h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Language</h2>
+						    <div class="resume-section-content">
+							    <ul class="list-unstyled resume-lang-list">
+								    <li class="mb-2"><span class="resume-lang-name font-weight-bold">English</span> <small class="text-muted font-weight-normal">(Professional)</small></li>
+								    <li class="mb-2 align-middle"><span class="resume-lang-name font-weight-bold">Hindi</span> <small class="text-muted font-weight-normal">(Native)</small></li>
+								    <li><span class="resume-lang-name font-weight-bold">Urdu</span> <small class="text-muted font-weight-normal">(Professional)</small></li>
+							    </ul>
+						    </div>
+					    </section><!--//language-section-->
+					    <section class="resume-section interests-section mb-5">
+						    <h2 class="resume-section-title text-uppercase font-weight-bold pb-3 mb-3">Interests</h2>
+						    <div class="resume-section-content">
+							    <ul class="list-unstyled">
+									{% for intr in intresteList %}
+							    	<li class="mb-1">{{intr}}</li>
+								    {% endfor %}
+								    
+							    </ul>
+						    </div>
+					    </section><!--//interests-section-->
+					   
+					</div>
+					
+				</div><!--//row-->
+				</hr>
+		    </div><!--//resume-body-->
+		    
+		    
+		</div>
+		
+    </article>  
+
+	
+
+    <footer class="footer text-center pt-2 pb-5">
+	     <!--/* This template is released under the Creative Commons Attribution 3.0 License. Please keep the attribution link below when using for your own project. Thank you for your support. :) If you'd like to use the template without the attribution, you can buy the commercial license via our website: themes.3rdwavemedia.com */-->
+                <small class="copyright">Portfolio for Detail Description</small>
+    </footer>
+
+</body>
+</html> 
+
