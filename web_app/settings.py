@@ -178,8 +178,3 @@ AUTHENTICATION_BACKENDS = (
 SITE_ID = 1
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = False
 LOGIN_REDIRECT_URL = '/comment-redirect'
-
-# Client Id(Google) : 35106197578-8j8ea1frd1mjeihbk8la4hiltnjqgujp.apps.googleusercontent.com
-# Client Secrte :  wnEhag9dPJglA4d1rblzG9g-
-# Facebook clientId : 574183413211945
-# Facebook sec : b57de193dd51496e618816e7b802c780
