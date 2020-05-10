@@ -29,7 +29,7 @@ class Posts(models.Model):
     output = models.TextField(default='', blank=True)
     code_image = models.ImageField(upload_to = 'codes',default='', blank = True,null=True, help_text = 'Coding Image')
     output_image = models.ImageField(upload_to = 'outputs',default='',blank = True, null=True, help_text = 'Output image')
-    
+    comment_count = models.IntegerField(default=0)
     # It will show the title in admin panel instead of objects(id)
     def __str__(self):
         return  self.title
@@ -42,6 +42,9 @@ class Posts(models.Model):
     publish_date = models.DateField(auto_now_add = False) 
     created_at = models.DateField(default=datetime.date.today) 
     updated_at = models.DateField(auto_now_add = True) 
+
+    def get_absolute_url(self):
+        return f"post_detail/{self.slug}"
     # @property
     # def days_since_creation(self):
     #     diff = timezone.now().date() - self.publish_date
@@ -97,13 +100,13 @@ class Comment(models.Model):
     def __str__(self):
         return  self.comment
 
-class Contactus(models.Model):
-    name = models.CharField(max_length=100) # max_length required
-    email= models.EmailField(max_length = 150)
-    message= models.TextField()
-    created_at = models.DateField(default=datetime.datetime.now()) 
-    def __str__(self):
-        return  self.name
+# class Contactus(models.Model):
+#     name = models.CharField(max_length=100) # max_length required
+#     email= models.EmailField(max_length = 150)
+#     message= models.TextField()
+#     created_at = models.DateField(default=datetime.datetime.now()) 
+#     def __str__(self):
+#         return  self.name
 
 # =====================Creating Portfolio Model/Database ==============================
 
@@ -195,6 +198,7 @@ class Projects(models.Model):
     start_date = models.DateField()
     end_date = models.DateField(blank = True,null = True)
     technology = models.ManyToManyField(Technologies,db_table='blog_project_technology')
+    created_at = models.DateField(default=datetime.date.today) 
    # technology = models.ManyToManyField(Technologies,through='Project_Technology')
 
     def __str__(self):
@@ -250,3 +254,22 @@ class User_Interest(models.Model):
     name = models.CharField(max_length=50,null = True) 
     created_at = models.DateField(default=datetime.date.today) 
 
+# Contactus Form table
+class Contactus(models.Model):
+    name = models.CharField(max_length=100,null=False) # max_length required
+    email = models.EmailField(max_length=120,null=False) # max_length required
+    message = models.TextField(max_length=800,null=False) # max_length required
+    created_at = models.DateField(default=datetime.date.today) 
+    def __str__(self):
+        return  self.name
+
+# Signals is just like a triggers, After inserting comment,we are updating comment_count in post object
+from django.db.models import signals
+from django.dispatch import receiver
+
+@receiver(signals.post_save, sender=Comment) 
+def update_comment_count(sender, instance, created, **kwargs):
+    print("================Comment signals Executed===============" )
+    postObj = Posts.objects.get(id = instance.post.pk)
+    postObj.comment_count += 1 
+    postObj.save()

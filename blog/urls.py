@@ -13,6 +13,6 @@ urlpatterns = [
     path('portfolio/', views.portfolio_view, name='portfolio'),
     path('comment-redirect', views.commentRedirect, name='commentRedirect'),
     path('comments', views.saveComment, name='saveComment'),
-    path('contactus/', views.saveContact, name='saveContact'),
+    path('contactus/', views.saveContact, name='contactus'),
     
 ]

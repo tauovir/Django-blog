@@ -1,86 +1,81 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-	<title>Contact V2</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-<!--===============================================================================================-->
-	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
-<!--===============================================================================================-->
-	<link rel="stylesheet" type="text/css" href="css/util.css">
-	<link rel="stylesheet" type="text/css" href="css/main.css">
-<!--===============================================================================================-->
-</head>
-<body>
+{% extends 'layout.html' %}
+{% block mainBody%}
+{% load static %}
 
-	<div class="bg-contact2" style="background-image: url('images/bg-01.jpg');">
-		<div class="container-contact2">
-			<div class="wrap-contact2">
-				<form class="contact2-form validate-form">
-					<span class="contact2-form-title">
-						Contact Us
-					</span>
+{% block cssBody%}
 
-					<div class="wrap-input2 validate-input" data-validate="Name is required">
-						<input class="input2" type="text" name="name">
-						<span class="focus-input2" data-placeholder="NAME"></span>
+
+<link id="theme-style" rel="stylesheet" href="{% static "assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css" %}">
+<link id="theme-style" rel="stylesheet" href="{% static "assets/css/contact_main.css" %}">
+<link id="theme-style" rel="stylesheet" href="{% static "assets/css/contact_util.css" %}">
+<!--===============================================================================================-->
+<style>
+	.success-message {
+    margin-left: 270px;
+    color: green;
+    font-size: 23px;
+    font-family: sans-serif;
+}
+
+	}
+</style>
+{% endblock %}
+
+<div class="bg-contact2" style="background-image: url('{% static "assets/images/bg-01.jpg" %}');">
+	{{ form.non_field_errors }}
+	<div class="container-contact2">
+		
+		<div class="wrap-contact2">
+			{% for message in messages %}
+			{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+			<span class="success-message">{{ message }}</span>
+			{% endif %}
+			{% endfor %}
+			
+			<form class="contact2-form validate-form" action="{% url 'contactus' %}" method="POST">
+				{% csrf_token %}
+				<span class="contact2-form-title">
+					Contact Us
+				</span>
+				
+				<div class="wrap-input2 validate-input" data-validate="Name is required">
+					<!-- <input class="input2" type="text" name="name"> -->
+					{{form.name}}
+					<span class="focus-input2" data-placeholder="NAME"></span>
+					{{ form.name.errors }}
+				</div>
+
+				<div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
+					<!-- <input class="input2" type="text" name="email"> -->
+					{{form.email}}
+					<span class="focus-input2" data-placeholder="EMAIL"></span>
+					{{ form.email.errors }}
+				</div>
+
+				<div class="wrap-input2 validate-input" data-validate = "Message is required">
+					<!-- <textarea class="input2" name="message"></textarea> -->
+					{{form.message}}
+					<span class="focus-input2" data-placeholder="MESSAGE"></span>
+					{{ form.message.errors }}
+				</div>
+
+				<div class="container-contact2-form-btn">
+					<div class="wrap-contact2-form-btn">
+						<div class="contact2-form-bgbtn"></div>
+						<button class="contact2-form-btn">
+							Send Your Message
+						</button>
 					</div>
-
-					<div class="wrap-input2 validate-input" data-validate = "Valid email is required: ex@abc.xyz">
-						<input class="input2" type="text" name="email">
-						<span class="focus-input2" data-placeholder="EMAIL"></span>
-					</div>
-
-					<div class="wrap-input2 validate-input" data-validate = "Message is required">
-						<textarea class="input2" name="message"></textarea>
-						<span class="focus-input2" data-placeholder="MESSAGE"></span>
-					</div>
-
-					<div class="container-contact2-form-btn">
-						<div class="wrap-contact2-form-btn">
-							<div class="contact2-form-bgbtn"></div>
-							<button class="contact2-form-btn">
-								Send Your Message
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
 	</div>
+</div>
+{% endblock %}
 
 
+{% block jsScript %}
+<script src="{% static "assets/js/contatcus.js" %} "></script>
 
 
-<!--===============================================================================================-->
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/bootstrap/js/popper.js"></script>
-	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
-<!--===============================================================================================-->
-	<script src="vendor/select2/select2.min.js"></script>
-<!--===============================================================================================-->
-	<script src="js/main.js"></script>
-
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
-
-	  gtag('config', 'UA-23581568-13');
-	</script>
-
-</body>
-</html>
+{% endblock %}

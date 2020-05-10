@@ -30,28 +30,38 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
-INSTALLED_APPS = [
+DEFAULT_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    #own registry
+
+]
+
+Third_PARTY_APPS = [
     'ckeditor',
     'ckeditor_uploader',
-    'blog',
     'clear_cache',
     # All auth
     'django.contrib.sites',
-    'allauth',
+     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     # Required service provoider
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
-
+     'rest_framework',
 ]
+
+LOCAL_APPS = [
+    'blog',
+    'webApi',
+   
+]
+
+INSTALLED_APPS = DEFAULT_APPS + Third_PARTY_APPS + LOCAL_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -29,7 +29,7 @@
 		<div class="container">
 
 			{% for post in posts %}
-			<div class="item mb-5">
+			<!-- <div class="item mb-5">
 				<div class="media">
 					<img class="mr-3 img-fluid post-thumb d-none d-md-flex" src="{{post.banner_image.url }}" alt="image">
 					<div class="media-body">
@@ -37,9 +37,10 @@
 						<div class="meta mb-1"><span class="date">{{ post.publish_date }}</span><span class="time">5 min read</span><span class="comment"><a href="#">8 comments</a></span></div>
 						<div class="intro">{{ post.summary |striptags | slice:"250"}}....</div>
 						<a class="more-link" href="post_detail/{{post.slug}}">Read more &rarr;</a>
-					</div><!--//media-body-->
-				</div><!--//media-->
-			</div><!--//item-->
+					</div>
+				</div>
+			</div> -->
+			{% include 'component/post-list.html' with blogPost=post %} <!-- carefull about white space-->
 			{% endfor %}
 
 

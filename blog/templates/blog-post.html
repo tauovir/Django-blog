@@ -28,7 +28,7 @@
 		<div class="container">
 			<header class="blog-post-header">
 				<h2 class="title mb-2">{{ posts.title }}</h2>
-				<div class="meta mb-3"><span class="date">Published on: {{ posts.publish_date|date:'l,N,Y' }}</span><span class="time">5 min read</span><span class="comment"><a href="#">4 comments</a></span></div>
+				<div class="meta mb-3"><span class="date">Published on: {{ posts.publish_date|date:'l,N,Y' }}</span><span class="time">5 min read</span><span class="comment"><a href="#">{{posts.comment_count}} comments</a></span></div>
 			</header>
 			<hr/>
 			<div class="blog-post-body">
@@ -298,14 +298,13 @@
 	<div class="modal-dialog modal-dialog-centered" role="document">
 	  <div class="modal-content">
 		<div class="modal-header">
-		  <h5 class="modal-title" id="exampleModalLongTitle">Thansk you for Subscription.</h5>
+		  <h5 class="modal-title" id="exampleModalLongTitle">Thansk you for your valuable comment.</h5>
 		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		  </button>
 		</div>
 		<div class="modal-body">
-		  We will Notify you whenever we make new post.
-		  I hope you will keep enjoying my post.
+		 Thank you for your valuable comment.
 		</div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-secondary closeModel" data-dismiss="modal">Close</button>

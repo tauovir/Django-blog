@@ -10,19 +10,19 @@ def setCommentFormat(commetQuerySet):
             if cmt.replied_on == 0:
                 commentData = {
                     'comment_id':cmt.id,'comment':cmt.comment,
-                'user_name':cmt.user.first_name + " " + cmt.user.last_name,
+                'user_name':getCommenterName(cmt.user),
                 'comment_date' : cmt.created_at
                 }
                 commentList.append(commentData)
             elif cmt.replied_on != 0: # Check it reply of a comment or Comment only
                 if cmt.replied_on in repliedDict.keys(): 
                     temList = []
-                    temp = {'comment':cmt.comment,'user_name':cmt.user.first_name + " " + cmt.user.last_name,'comment_date' : cmt.created_at}
+                    temp = {'comment':cmt.comment,'user_name':getCommenterName(cmt.user),'comment_date' : cmt.created_at}
                     temList = repliedDict[cmt.replied_on]
                     temList.append(temp)
                     repliedDict[cmt.replied_on] = temList
                 else:
-                    temp = [{'comment':cmt.comment,'user_name':cmt.user.first_name + " " + cmt.user.last_name,'comment_date' : cmt.created_at}]
+                    temp = [{'comment':cmt.comment,'user_name':getCommenterName(cmt.user),'comment_date' : cmt.created_at}]
                     repliedDict[cmt.replied_on] = temp
 
         
@@ -32,6 +32,17 @@ def setCommentFormat(commetQuerySet):
         #print(commentList)
 
         return commentList
+
+def getCommenterName(userObj):
+    name = ''
+    if userObj.first_name:
+        name = userObj.first_name + " " + userObj.last_name
+    else:
+        name = userObj.username
+        
+    return name
+
+
 
 def setReplyToComment(commentList,relpyDict):
     for cmt1 in commentList:

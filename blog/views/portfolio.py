@@ -1,7 +1,7 @@
 
 from django.shortcuts import render,redirect
 from django.http import HttpResponse,Http404
-from ..models import Profile,Employment,Projects,Technology_Category
+from ..models import Profile,Employment,Projects,Technology_Category,About
 from django.conf import settings
 import json
 from ..errorMessage import getApiMsg
@@ -22,6 +22,7 @@ def portfolio_view(request):
     interestSet = Profile.objects.first().user_interest_set.all()
     intresteList = [ x.name for x in interestSet]
 
+    aboutData = About.objects.first()
     context = {
         'formatedData' :formatedData,
         'techData':techList,
@@ -29,6 +30,7 @@ def portfolio_view(request):
         'educationData' : educationData,
         'certificateData' : certificateData,
         'intresteList' : intresteList,
+        'aboutData' : aboutData
         
         }
     return render(request, 'portfolio.html', context)
